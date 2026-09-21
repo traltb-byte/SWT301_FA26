@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import traltb.example.Calculator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,5 +60,18 @@ public class CalculatorTest {
         int actual = calculator.multiply(a, b);
 // Assert
         assertEquals(expected, actual, "4 * 5 phải bằng 20");
+    }
+
+    //parameterizedTest for multiply
+    @ParameterizedTest(name = "Test {index} => {0} * {1} = {2}")
+    @CsvFileSource(resources = "/data.csv", numLinesToSkip = 1)
+    @DisplayName("multiply: kiểm thử với nhiều bộ dữ liệu từ CSV")
+    void multiply_testWithCsvFileSource(int a, int b, int expected) {
+        //Arrange
+
+        //Act
+        int actual = calculator.multiply(a, b);
+        //Assert
+        assertEquals(expected, actual, () -> a + " * " + b + " phải bằng " + expected);
     }
 }
